@@ -1,4 +1,5 @@
 import { createSmtpTransport } from "./smtp";
+import { getSmtpErrorDetails } from "./smtp-error";
 
 function escapeHtml(value: string) {
   return value.replace(/[&<>"']/g, (character) => ({
@@ -36,8 +37,9 @@ export async function sendAuthEmail(to: string, url: string, kind: "verify" | "r
     if (!result.accepted?.length || result.rejected?.length) {
       throw new Error("Recipient rejected");
     }
-  } catch {
+  } catch (error) {
     // Do not expose SMTP responses, credentials, recipients, or reset tokens.
+    console.error("[auth-email] SMTP delivery failed", getSmtpErrorDetails(error));
     throw new Error("Unable to send the authentication email through SMTP.");
   } finally {
     transporter.close();
