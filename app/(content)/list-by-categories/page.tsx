@@ -39,14 +39,14 @@ const ListByCategories = async ( {searchParams}: { searchParams: Promise<{date_f
     let balanceString = formatPrice(balance);
 
     return (
-        <main className='bg-white'>
+        <main className='bg-balance-surface'>
             <div>
                 <ExpensesFilter date_from={date_from} date_to={date_to} all_categories={allCategories} list_type="list-by-categories"/>
             </div>
             <div className="h-3"></div>
             <table className="w-full">
                 <thead>
-                    <tr className="border-b border-gray-300  odd:bg-slate-300 py-2">
+                    <tr className="border-b border-balance-border  bg-balance-accent py-2">
                         <td className="font-bold py-2 px-2">
                             Category
                         </td>                      
@@ -60,7 +60,7 @@ const ListByCategories = async ( {searchParams}: { searchParams: Promise<{date_f
                 </thead>
                 <tbody>
                 {allTransactions.map((oneTransaction) => (
-                    <tr className="border-b border-gray-300 even:bg-gray-200 py-2" key={oneTransaction.id}>
+                    <tr className="border-b border-balance-border even:bg-balance-soft py-2" key={oneTransaction.id}>
                         <td className="px-2 py-2">
                             {oneTransaction.title}
                         </td>                        

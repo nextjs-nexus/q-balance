@@ -4,7 +4,7 @@ import ItemsSelect from '../../../components/items-select';
 
 export default function NewTransactionPage() {
   return (
-    <main className='bg-white'>
+    <main className='bg-balance-surface'>
       <TransactionForm action={createTransaction}>
         <ItemsSelect selectedId={0}/>
       </TransactionForm>

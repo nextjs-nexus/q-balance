@@ -11,7 +11,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Aut
       <form action={resetPasswordAction} className="flex w-full max-w-sm flex-col gap-3">
         <AuthFeedback params={params} />
         {!params.token && (
-          <p role="alert" className="text-sm text-red-700">
+          <p role="alert" className="text-sm text-balance-error">
             This reset link is missing or invalid. Request a new reset link below.
           </p>
         )}
@@ -19,7 +19,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Aut
         <input type="hidden" name="token" value={params.token || ""} />
         <button className="py-2 disabled:opacity-50" type="submit" disabled={!params.token}>Choose a new password</button>
       </form>
-      <div className="flex flex-wrap justify-center gap-4 text-sm text-blue-700">
+      <div className="flex flex-wrap justify-center gap-4 text-sm text-balance-primary">
         <Link href="/signin">Back to sign in</Link>
         <Link href="/forgot-password">Request a new reset link</Link>
       </div>

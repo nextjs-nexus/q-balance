@@ -29,7 +29,7 @@ const EditItemPage = async ( {params}: { params: Promise<{id:string}>} ) => {
   let obj = result[0];
 
   return (
-    <main className='bg-white'>
+    <main className='bg-balance-surface'>
         <form action={editItem}>
             <div className='form-control'>
               <h1 className="font-bold mb-2">Edit Item</h1>

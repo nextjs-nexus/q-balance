@@ -24,28 +24,28 @@ export default async function RecentTransactions({ type }: TransactionType) {
     );
 
     const isIncome = type === 1;
-    const amountColor = isIncome ? "text-[#346538]" : "text-[#9F2F2D]";
+    const amountColor = isIncome ? "text-balance-income" : "text-balance-expense";
 
     if (transactions.length === 0) {
         return (
-            <p className="px-5 py-8 text-center text-sm text-[#787774]">
+            <p className="px-5 py-8 text-center text-sm text-balance-muted">
                 No recent transactions
             </p>
         );
     }
 
     return (
-        <ul className="divide-y divide-[#EAEAEA]">
+        <ul className="divide-y divide-balance-border">
             {transactions.map((transaction) => (
                 <li
                     key={transaction.id}
-                    className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-3.5 transition-colors duration-200 hover:bg-[#FBFBFA]"
+                    className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-3.5 transition-colors duration-200 hover:bg-balance-soft"
                 >
                     <div className="min-w-0">
-                        <time className="mt-0.5 block text-xs leading-5 text-[#787774]">
+                        <time className="mt-0.5 block text-xs leading-5 text-balance-muted">
                             {transaction.date}
                         </time>
-                        <p className="truncate text-sm font-medium leading-5 text-[#2F3437]">
+                        <p className="truncate text-sm font-medium leading-5 text-balance-ink">
                             {transaction.title}
                         </p>
                     </div>

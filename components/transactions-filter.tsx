@@ -29,7 +29,7 @@ export default function TransactionsFilter({date_from, date_to, all_categories, 
   const listPath = list_type || "list-transactions";
 
   return (
-    <div className="rounded-md bg-gray-100 p-3 sm:p-4">
+    <div className="rounded-md bg-balance-soft p-3 sm:p-4">
       <form>
         <div className="form-control grid gap-3 sm:grid-cols-2 xl:grid-cols-[repeat(3,minmax(0,1fr))_auto_auto] xl:items-end">
           <label className="mb-0">

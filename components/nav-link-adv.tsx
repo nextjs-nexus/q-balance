@@ -18,19 +18,19 @@ export default function NavLinkAdv({ href, image, children } : LinkProps ) {
     href = '/';
   }
 
- let classes: string ="flex min-h-11 items-center justify-center gap-2 rounded-md px-3 py-2 transition-colors hover:bg-slate-700 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-600 md:px-2 lg:justify-start";
- let invertit:string = 'opacity(70%) invert(100%) sepia(0%) saturate(100%) hue-rotate(0deg)';
+ let classes: string ="flex min-h-11 items-center justify-center gap-2 rounded-md px-3 py-2 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-balance-accent md:px-2 lg:justify-start";
+ let iconClasses = 'brightness-0 invert opacity-90';
 
  if ( path.startsWith(href) ) {
-    classes += ' bg-blue-50 font-semibold text-[#0a2239]';
-    invertit = 'opacity(70%) invert(0%) sepia(0%) saturate(100%) hue-rotate(0deg)';
+    classes += ' bg-balance-accent hover:bg-balance-accent font-semibold text-balance-ink';
+    iconClasses = 'brightness-0 opacity-80';
  }else{
-    classes += ' font-normal text-[#c8d7e3]';
+    classes += ' font-normal text-balance-nav-text hover:bg-balance-hover';
  }
 
   return (
     <Link href={href} className={`${classes}`}>
-      <Image src={image} loading="eager" width={20} height={20} style={{ filter: `${invertit}`}} alt="New Item" />
+      <Image src={image} loading="eager" width={20} height={20} className={iconClasses} alt="" />
       {children}
     </Link>
   );

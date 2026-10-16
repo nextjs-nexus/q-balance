@@ -16,12 +16,12 @@ export default function NavLink({ href, children } : LinkProps ) {
     href = '/';
   }
 
- let classes: string ="flex min-h-11 items-center justify-center gap-2 rounded-md px-3 py-2 transition-colors hover:bg-slate-700 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-600 md:px-2 lg:justify-start";
+ let classes: string ="flex min-h-11 items-center justify-center gap-2 rounded-md px-3 py-2 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-balance-accent md:px-2 lg:justify-start";
 
  if ( path.startsWith(href) ) {
-    classes += ' bg-blue-50 font-semibold text-[#0a2239]';
+    classes += ' bg-balance-accent hover:bg-balance-accent font-semibold text-balance-ink';
  }else{
-    classes += ' font-normal text-[#c8d7e3]';
+    classes += ' font-normal text-balance-nav-text hover:bg-balance-hover';
  }
 
   return (

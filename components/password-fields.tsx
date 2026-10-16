@@ -15,7 +15,7 @@ export default function PasswordFields({ confirm = false }: { confirm?: boolean 
         aria-describedby="password-requirements"
         required
       />
-      <p id="password-requirements" className="text-sm text-slate-600">{PASSWORD_REQUIREMENTS}</p>
+      <p id="password-requirements" className="text-sm text-balance-muted">{PASSWORD_REQUIREMENTS}</p>
       {confirm && (
         <>
           <label htmlFor="confirmPassword">Confirm password</label>

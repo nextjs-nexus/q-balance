@@ -18,7 +18,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Aut
         <PasswordFields confirm={false} />
         <button className="py-2" type="submit">Sign Up</button>
       </form>
-      <div className="flex flex-wrap justify-center gap-4 text-sm text-blue-700">
+      <div className="flex flex-wrap justify-center gap-4 text-sm text-balance-primary">
         <Link href="/signin">Back to sign in</Link>
       </div>
     </div>

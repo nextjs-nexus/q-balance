@@ -68,12 +68,12 @@ export default function TransactionForm({ action, children }: ChildrenProps) {
                   onChange={(event) => setDiscount(event.target.value)}
                   aria-describedby="discount-help"
                 />
-                <p id="discount-help" className="text-sm text-slate-600">
+                <p id="discount-help" className="text-sm text-balance-muted">
                   Enter the discount for the entire quantity. The saved unit price is
                   (price × quantity − discount) ÷ quantity. Leave blank for no discount.
                 </p>
                 {discounted && (
-                  <p aria-live="polite" className="mt-2 text-sm text-slate-600">
+                  <p aria-live="polite" className="mt-2 text-sm text-balance-muted">
                     {'error' in discounted
                       ? discounted.error
                       : `Discounted unit price: ${discounted.price.toFixed(2)} · Total: ${discounted.total.toFixed(2)}`}

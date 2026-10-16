@@ -5,7 +5,7 @@ import CategoriesGrid from '../../../components/categories-grid';
 
 export default function NewItemPage() {
   return (
-    <main className='bg-white'>
+    <main className='bg-balance-surface'>
       <ItemForm action={createItem}>
         <CategoriesGrid checkedId={null}/>
       </ItemForm>

@@ -5,7 +5,7 @@ export default function MainMenu() {
     <header className="mt-2 md:mt-4">
       <nav aria-label="Main navigation" className="overflow-x-auto">
         <div className='flex min-w-max gap-1 md:min-w-0 md:flex-col'>
-          <p className='text-slate-400 font-normal text-lg'>New Data</p>
+          <p className='text-balance-nav-muted font-normal text-lg'>New Data</p>
           <div>
             <NavLinkAdv href="/new-category" image="/new-category.svg">
               <span className="hidden lg:block">New Category</span>
@@ -22,7 +22,7 @@ export default function MainMenu() {
             </NavLinkAdv>
           </div>
           <br />
-          <p className='text-slate-400 font-normal text-lg'>Lists</p> 
+          <p className='text-balance-nav-muted font-normal text-lg'>Lists</p>
           <div>
             <NavLinkAdv href="/list-categories" image="/list-categories.svg">
               <span className="hidden lg:block">List Categories</span>
@@ -42,7 +42,7 @@ export default function MainMenu() {
             <NavLinkAdv href="/list-by-categories" image="/list-expenses.svg">
               <span className="hidden lg:block">List by Categories</span>
             </NavLinkAdv>
-          </div>          
+          </div>
         </div>
       </nav>
     </header>

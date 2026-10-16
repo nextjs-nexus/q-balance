@@ -6,15 +6,12 @@
   box-sizing: border-box;
 }
 
-html {
-  font-family: Geist, Arial, Helvetica, sans-serif;
-}
-
 body {
+  @apply font-[family-name:var(--font-geist-sans)];
   margin: 0;
   --tw-bg-opacity: 1;
-  background-color: #f8fafc;
-  color: #303031;
+  @apply bg-balance-canvas;
+  @apply text-balance-ink;
   min-width: 0;
 }
 
@@ -31,9 +28,9 @@ main {
   padding: clamp(1rem, 4vw, 2rem);
   border-radius: 6px;
   border-width: 1px;
-  border-color: #d1d5db;
+  @apply border-balance-border;
   --tw-bg-opacity: 1;
-  background-color: #f8fafc;
+  @apply bg-balance-canvas;
   min-height: 85vh;
   box-shadow: 0 0 0 rgba(71, 70, 70, 0.5);
   overflow-x: auto;
@@ -63,7 +60,7 @@ main table {
 .form-control label {
   font-weight: bold;
   font-size: 0.9rem;
-  color: #3c3b3b;
+  @apply text-balance-ink;
 }
 
 .form-control input,
@@ -73,9 +70,9 @@ main table {
   padding: 0.3rem;
   border-radius: 4px;
   border: 1px solid;
-  border-color: #d1d5db;
-  background-color: #FFFFFF;
-  color: #303031;
+  @apply border-balance-border;
+  @apply bg-balance-surface;
+  @apply text-balance-ink;
   min-height: 2.5rem;
 }
 
@@ -93,14 +90,14 @@ main table {
   /*padding: 2px 2px;*/
   border: none;
   border-radius: 5px;
-  border-color: #d1d5db;
-  background-color: #17486e;
-  color: #dadadd;
+  @apply border-balance-border;
+  @apply bg-balance-primary;
+  @apply text-white;
   cursor: pointer;
 }
 
 .filter-form-actions a:hover {
-  background-color: #003b6f;
+  @apply bg-balance-hover;
 }
 
 .form-actions a, button, input{
@@ -108,19 +105,19 @@ main table {
   padding: 0.5rem 0.5rem;
   border: none;
   border-radius: 5px;
-  background-color: #17486e;
-  color: #dadadd;
+  @apply bg-balance-primary;
+  @apply text-white;
   cursor: pointer;
 }
 
 .form-actions button:hover {
-  background-color: #003b6f;
-  color: #FFFFFF;
+  @apply bg-balance-hover;
+  @apply text-white;
 }
 
 .form-actions input[type='submit']:hover, input[type='button']:hover {
-  background-color: #003b6f;
-  color: #FFFFFF;
+  @apply bg-balance-hover;
+  @apply text-white;
 }
 
 a,
@@ -136,7 +133,7 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid #2563eb;
+  @apply outline-2 outline-balance-income;
   outline-offset: 2px;
 }
 
@@ -165,11 +162,11 @@ button:active,
 }
 
 .form-actions button[type='reset'] {
-  background-color: gray;
+  @apply bg-balance-soft text-balance-ink;
 }
 
 .form-actions button[type='reset']:hover {
-  color: #FFFFFF;
+  @apply bg-balance-hover text-white;
 }
 
 .form-errors {
@@ -180,7 +177,7 @@ button:active,
 
 .form-errors li {
   margin: 0.35rem 0;
-  color: #c882a2;
+  @apply text-balance-error;
 }
 
 
@@ -194,3 +191,8 @@ button:active,
   object-fit: cover;
 }
 
+
+input[type='radio'],
+input[type='checkbox'] {
+  @apply accent-balance-primary;
+}

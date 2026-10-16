@@ -48,14 +48,14 @@ const MainPage = async ( {searchParams}: { searchParams: Promise<{date_from: str
 	return(
 		<div className="grid gap-4 p-3 sm:p-5 lg:grid-cols-[minmax(0,2fr)_minmax(16rem,1fr)] lg:p-6">
 			<section className="min-w-0">
-				<div className="rounded-md border border-gray-300 bg-white p-3 sm:p-4">
+				<div className="rounded-md border border-balance-border bg-balance-surface p-3 sm:p-4">
 					<div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 						<h1>
-							<span className="font-extrabold text-[#346538]">
+							<span className="font-extrabold text-balance-income">
 								Income
 							</span>
 							<span> and </span>
-							<span className="font-extrabold text-[#9F2F2D]">
+							<span className="font-extrabold text-balance-expense">
 								Expense
 							</span>
 						</h1>
@@ -98,18 +98,18 @@ const MainPage = async ( {searchParams}: { searchParams: Promise<{date_from: str
 			<aside className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
 				<section
 					id="income"
-					className="overflow-hidden rounded-lg border border-[#EAEAEA] bg-white"
+					className="overflow-hidden rounded-lg border border-balance-border bg-balance-surface"
 				>
-					<header className="flex items-center justify-between border-b border-[#EAEAEA] px-5 py-4">
+					<header className="flex items-center justify-between border-b border-balance-border px-5 py-4">
 						<div>
-							<p className="text-xs font-medium uppercase tracking-[0.08em] text-[#787774]">
+							<p className="text-xs font-medium uppercase tracking-[0.08em] text-balance-muted">
 								Latest activity
 							</p>
-							<h2 className="mt-1 text-base font-semibold tracking-[-0.02em] text-[#2F3437]">
+							<h2 className="mt-1 text-base font-semibold tracking-[-0.02em] text-balance-ink">
 								Recent Income
 							</h2>
 						</div>
-						<span className="rounded-full bg-[#EDF3EC] px-2.5 py-1 text-xs font-medium uppercase tracking-wider text-[#346538]">
+						<span className="rounded-full bg-balance-income-soft px-2.5 py-1 text-xs font-medium uppercase tracking-wider text-balance-income">
 							Received
 						</span>
 					</header>
@@ -118,18 +118,18 @@ const MainPage = async ( {searchParams}: { searchParams: Promise<{date_from: str
 
 				<section
 					id="expense"
-					className="overflow-hidden rounded-lg border border-[#EAEAEA] bg-white"
+					className="overflow-hidden rounded-lg border border-balance-border bg-balance-surface"
 				>
-					<header className="flex items-center justify-between border-b border-[#EAEAEA] px-5 py-4">
+					<header className="flex items-center justify-between border-b border-balance-border px-5 py-4">
 						<div>
-							<p className="text-xs font-medium uppercase tracking-[0.08em] text-[#787774]">
+							<p className="text-xs font-medium uppercase tracking-[0.08em] text-balance-muted">
 								Latest activity
 							</p>
-							<h2 className="mt-1 text-base font-semibold tracking-[-0.02em] text-[#2F3437]">
+							<h2 className="mt-1 text-base font-semibold tracking-[-0.02em] text-balance-ink">
 								Recent Expenses
 							</h2>
 						</div>
-						<span className="rounded-full bg-[#FDEBEC] px-2.5 py-1 text-xs font-medium uppercase tracking-wider text-[#9F2F2D]">
+						<span className="rounded-full bg-balance-expense-soft px-2.5 py-1 text-xs font-medium uppercase tracking-wider text-balance-expense">
 							Spent
 						</span>
 					</header>

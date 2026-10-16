@@ -25,20 +25,20 @@ export default function ChartByPeriod({all_transactions}: AllTransactionsTypePro
         bottom: 0,
       }}
     >
-      <CartesianGrid />
-      <XAxis dataKey="day" />
-      <YAxis />
+      <CartesianGrid stroke="#dce3d5" strokeDasharray="3 5" />
+      <XAxis dataKey="day" stroke="#627169" tickLine={false} axisLine={false} />
+      <YAxis stroke="#627169" tickLine={false} axisLine={false} />
       <Tooltip />
       <Line
         type="monotone"
         dataKey="income"
-        stroke="#346538"
+        stroke="#567535"
         strokeWidth={3}
       />
       <Line
         type="monotone"
         dataKey="expense"
-        stroke="#9F2F2D"
+        stroke="#8b6241"
         strokeWidth={3}
       />
     </LineChart>

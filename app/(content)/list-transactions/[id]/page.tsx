@@ -26,7 +26,7 @@ const EditExpensePage = async ( {params}: { params: Promise<{id:string}>} ) => {
   let obj = result[0];
 
   return (
-    <main className='bg-white'>
+    <main className='bg-balance-surface'>
         <form action={editTransaction}>
             <div>
               <h1 className="font-bold mb-2">Edit Transaction</h1>    

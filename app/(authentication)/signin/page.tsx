@@ -15,10 +15,10 @@ export default async function Page({ searchParams }: { searchParams: Promise<Aut
         <Input id="email" type="email" name="email" autoComplete="email" required />
         <label htmlFor="password">Password</label>
         <Input id="password" type="password" name="password" autoComplete="current-password" required />
-        <p className="text-sm text-slate-600">{PASSWORD_REQUIREMENTS}</p>
+        <p className="text-sm text-balance-muted">{PASSWORD_REQUIREMENTS}</p>
         <button className="py-2" type="submit">Sign In</button>
       </form>
-      <div className="flex flex-wrap justify-center gap-4 text-sm text-blue-700">
+      <div className="flex flex-wrap justify-center gap-4 text-sm text-balance-primary">
         <Link href="/forgot-password">Forgot password?</Link>
         <Link href="/verify-email">Verify email</Link>
         <Link href="/signup">Create an account</Link>

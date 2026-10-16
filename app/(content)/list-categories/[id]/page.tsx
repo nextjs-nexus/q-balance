@@ -21,7 +21,7 @@ const EditCategoryPage = async ( {params}: { params: Promise<{id:string}>} ) => 
   }
 
   return (
-    <main className='bg-white'>
+    <main className='bg-balance-surface'>
         <form action={editCategory}>
             <div>
               <h1 className="form-control py-2 px-2 font-semibold">Edit Category</h1>

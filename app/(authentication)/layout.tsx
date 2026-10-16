@@ -29,10 +29,10 @@ export default async function ContentLayout({children}: RootLayoutProps) {
 
   return (
     <html lang="en" className="h-full antialiased">
-      <body>
+      <body className={`${geistSans.variable} ${geistMono.variable} bg-balance-canvas`}>
         <div className="flex flex-col">
           <div className="flex overflow-auto">
-            <div id="main-content" className="w-[100%] bg-[#F7F8FA]">
+            <div id="main-content" className="w-[100%] bg-balance-canvas">
               {children}
             </div>
           </div>
