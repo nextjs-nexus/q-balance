@@ -2,6 +2,10 @@
 
 Q-Balance is a web app for tracking income and expenses. Organize transactions into reusable items and categories, compare income with spending, and see your balance over a selected date range.
 
+## Live demo
+
+Try Q-Balance at [q-balance.next-nexus.dev](https://q-balance.next-nexus.dev/).
+
 ## Features
 
 - **Income and expense tracking:** create, view, edit, and delete transactions with an item, quantity, unit price, and comments. Amounts are calculated from quantity × price.
