@@ -9,8 +9,8 @@ export function calculateDiscountedPrice(
   }
 
   const quantityValue = Number(quantity);
-  const priceValue = Number(price);
-  const discountValue = Number(discount);
+  const priceValue = Number(price.replace(',', '.'));
+  const discountValue = Number(discount.replace(',', '.'));
 
   if (!Number.isFinite(quantityValue) || quantityValue <= 0) {
     return { error: 'Quantity must be greater than zero to apply a discount.' };

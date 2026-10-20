@@ -23,7 +23,7 @@ export default function TransactionForm({ action, children }: ChildrenProps) {
   const [type, setType] = useState(searchParams.get('type') === '1' ? '1' : '2');
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('');
-  const [discount, setDiscount] = useState('');
+  const [discount, setDiscount] = useState('0.00');
   const discounted = calculateDiscountedPrice(type, quantity, price, discount);
 
   return (
@@ -58,7 +58,7 @@ export default function TransactionForm({ action, children }: ChildrenProps) {
               <>
                 <label className="mt-2" htmlFor="discount">Discount amount (optional)</label>
                 <input
-                  type="number"
+                  type="text"
                   inputMode="decimal"
                   step="any"
                   min="0"

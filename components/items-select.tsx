@@ -7,20 +7,26 @@ type ArrayOfObjects = {
 
 type SelectedIdType = {
   selectedId: number;
-}
+};
 
-export default async function ItemsSelect({selectedId}: SelectedIdType) {
-
+export default async function ItemsSelect({ selectedId }: SelectedIdType) {
   const items: ArrayOfObjects = await getItems();
 
   return (
-    <div className='form-control'>
-    <select name="itemId" id="itemId" defaultValue={selectedId}>
-      <option value={0}>--Select Item--</option>  
-      {items.map((item) => (
-        <option key={item.id} value={item.id}>{item.title}</option>
-      ))}
-    </select>
+    <div className="form-control">
+      <select
+        name="itemId"
+        id="itemId"
+        defaultValue={selectedId}
+        className="font-[family-name:var(--font-geist-sans),Arial,sans-serif] [&_option]:font-[family-name:var(--font-geist-sans),Arial,sans-serif]"
+      >
+        <option value={0}>--Select Item--</option>
+        {items.map((item) => (
+          <option key={item.id} value={item.id}>
+            {item.title}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }

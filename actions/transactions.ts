@@ -144,7 +144,7 @@ export async function createTransaction(prevState, formData: FormData) {
 
   const itemId = formData.get('itemId') as string;
   const quantity = formData.get('quantity') as string;
-  const price = formData.get('price') as string;
+  const price = String(formData.get('price') || '').trim().replace(',', '.');
   const type = formData.get('type') as string;
   const comments = formData.get('comments') as string;
   const discount = String(formData.get('discount') || '');
@@ -192,7 +192,7 @@ export async function editTransaction(formData: FormData) {
   const eid = formData.get('eid');
   const itemId = formData.get('itemId') as string;
   const quantity = formData.get('quantity') as string;
-  const price = formData.get('price') as string;
+  const price = String(formData.get('price') || '').trim().replace(',', '.');
   const comments = formData.get('comments') as string;
   const button_delete = formData.get('delete');
   const button_save = formData.get('save');
