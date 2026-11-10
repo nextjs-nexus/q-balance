@@ -30,7 +30,7 @@ const ListTransactions = async ( {searchParams}: { searchParams: Promise<{date_f
         totalAmount = totalAmount + transaction.quantity * transaction.price;
     });
 
-    let totalAmountString: string = formatPrice(totalAmount);
+    const totalAmountString: string = formatPrice(totalAmount);
 
     return (
         <main className='bg-balance-surface'>

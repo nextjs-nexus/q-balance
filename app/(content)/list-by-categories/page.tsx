@@ -1,7 +1,6 @@
-import Image from "next/image.js";
 
 import { getByCategories, getCategories } from "../../../lib/transactions-mariadb";
-import { formatPrice, formatQuantity } from "../../utils/utils.js";
+import { formatPrice } from "../../utils/utils.js";
 import ExpensesFilter from "../../../components/transactions-filter";
 
 type ArrayOfObjects = {
@@ -32,11 +31,11 @@ const ListByCategories = async ( {searchParams}: { searchParams: Promise<{date_f
         totalAmountExpense = totalAmountExpense + oneTransaction.expense;
     });
 
-    let totalAmountIncomeString: string = formatPrice(totalAmountIncome);
-    let totalAmountExpenseString: string = formatPrice(totalAmountExpense);
+    const totalAmountIncomeString: string = formatPrice(totalAmountIncome);
+    const totalAmountExpenseString: string = formatPrice(totalAmountExpense);
 
-    let balance: number = totalAmountIncome - totalAmountExpense;
-    let balanceString = formatPrice(balance);
+    const balance: number = totalAmountIncome - totalAmountExpense;
+    const balanceString = formatPrice(balance);
 
     return (
         <main className='bg-balance-surface'>

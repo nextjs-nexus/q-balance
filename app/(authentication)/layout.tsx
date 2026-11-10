@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Geist_Pixel } from 'next/font/google';
+import { Geist, Geist_Mono } from 'next/font/google';
 
 import React from 'react';
 //import Link from 'next/link';

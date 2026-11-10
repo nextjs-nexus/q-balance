@@ -6,8 +6,12 @@ import { useActionState } from 'react';
 
 import FormSubmit from './form-submit';
 
+interface FormState {
+    errors: string[] | null;
+}
+
 interface ChildrenProps {
-    action: any;
+    action: (state: FormState, formData: FormData) => Promise<FormState>;
     children: React.ReactNode | React.ReactNode[];
 }
 

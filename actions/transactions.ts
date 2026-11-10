@@ -23,7 +23,7 @@ export async function createCategory(prevState, formData: FormData) {
   const title = formData.get('title') as string;
   const description = formData.get('description') as string;
 
-  let errors: string[] = [];
+  const errors: string[] = [];
 
   if (!title || title.trim().length === 0) {
     errors.push('Title is required.');
@@ -83,7 +83,7 @@ export async function createItem(prevState, formData: FormData) {
   const description = formData.get('description') as string;
   const categoryId = formData.get('categoryId') as string;
 
-  let errors: string[] = [];
+  const errors: string[] = [];
 
   if (!title || title.trim().length === 0) {
     errors.push('Title is required.');
@@ -150,7 +150,7 @@ export async function createTransaction(prevState, formData: FormData) {
   const discount = String(formData.get('discount') || '');
   const discounted = calculateDiscountedPrice(type, quantity || '', price || '', discount);
 
-  let errors: string[] = [];
+  const errors: string[] = [];
 
   if (!itemId || itemId.trim().length === 0) {
     errors.push('itemId is required.');
@@ -197,7 +197,7 @@ export async function editTransaction(formData: FormData) {
   const button_delete = formData.get('delete');
   const button_save = formData.get('save');
 
-  let errors: string[] = [];
+  const errors: string[] = [];
 
   if (!eid) {
     errors.push('Expense id is required.');

@@ -32,7 +32,7 @@ const MainPage = async ( {searchParams}: { searchParams: Promise<{date_from: str
 	}
 
     if ( !date_from ) {
-        let dateObj = new Date();
+        const dateObj = new Date();
         //dateObj.setDate(days_number * -1);
 		dateObj.setDate(dateObj.getDate()-days_number);
         date_from = dateObj.toJSON().slice(0, 10);

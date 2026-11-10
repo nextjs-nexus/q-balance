@@ -8,8 +8,12 @@ import { calculateDiscountedPrice } from '../lib/transaction-discount';
 import FormSubmit from './form-submit';
 import TransactionTypeRadio from './transaction-type-radio';
 
+interface FormState {
+    errors: string[] | null;
+}
+
 interface ChildrenProps {
-    action: any;
+    action: (state: FormState, formData: FormData) => Promise<FormState>;
     children: React.ReactNode | React.ReactNode[];
 }
 

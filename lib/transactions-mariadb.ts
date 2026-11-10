@@ -1,14 +1,16 @@
-import type { ResultSetHeader } from "mysql2";
+import type { ExecuteValues, ResultSetHeader, RowDataPacket } from "mysql2";
 
 import connectionPool from "../db";
 import { getCurrentUserId } from "./current-user";
 
-async function select(sql: string, values: any[] = []): Promise<any[]> {
-  const [rows] = await connectionPool.execute(sql, values);
-  return rows as any[];
+// Callers declare their own row shapes, so rows are returned untyped.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function select(sql: string, values: ExecuteValues[] = []): Promise<any[]> {
+  const [rows] = await connectionPool.execute<RowDataPacket[]>(sql, values);
+  return rows;
 }
 
-async function execute(sql: string, values: any[] = []): Promise<ResultSetHeader> {
+async function execute(sql: string, values: ExecuteValues[] = []): Promise<ResultSetHeader> {
   const [result] = await connectionPool.execute<ResultSetHeader>(sql, values);
   return result;
 }
@@ -128,7 +130,7 @@ export async function getTransactions(
   }
   if (!dateTo) dateTo = new Date().toJSON().slice(0, 10);
 
-  const criteria: any[] = [dateFrom + " 00:00:01", dateTo + " 23:59:59", type, userId];
+  const criteria: ExecuteValues[] = [dateFrom + " 00:00:01", dateTo + " 23:59:59", type, userId];
   let categoryCriteria = "";
   if (categoryId && Number(categoryId) !== 0) {
     criteria.push(categoryId);
@@ -168,7 +170,7 @@ export async function getByCategories(dateFrom?: string, dateTo?: string, catego
   }
   if (!dateTo) dateTo = new Date().toJSON().slice(0, 10);
 
-  const criteria: any[] = [dateFrom + " 00:00:01", dateTo + " 23:59:59", userId];
+  const criteria: ExecuteValues[] = [dateFrom + " 00:00:01", dateTo + " 23:59:59", userId];
   let categoryCriteria = "";
   if (categoryId && Number(categoryId) !== 0) {
     criteria.push(categoryId);

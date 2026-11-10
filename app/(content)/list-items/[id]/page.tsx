@@ -26,7 +26,7 @@ const EditItemPage = async ( {params}: { params: Promise<{id:string}>} ) => {
     notFound();
   }
 
-  let obj = result[0];
+  const obj = result[0];
 
   return (
     <main className='bg-balance-surface'>
