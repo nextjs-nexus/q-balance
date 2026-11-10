@@ -22,7 +22,8 @@
   },
   "allowScripts": {
     "better-sqlite3@13.0.1": true,
-    "sharp@0.34.5": true
+    "sharp@0.34.5": true,
+    "esbuild@0.28.2": true
   },
   "devDependencies": {
     "@recharts/devtools": "^0.0.18",
