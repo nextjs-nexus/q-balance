@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 
 import ButtonBack from '../../../../components/button-back';
+import ActionForm from '../../../../components/action-form';
 import { getTransaction } from '../../../../lib/transactions-mariadb';
 import { editTransaction } from '../../../../actions/transactions';
 import ItemsSelect from '../../../../components/items-select';
@@ -27,7 +28,7 @@ const EditExpensePage = async ( {params}: { params: Promise<{id:string}>} ) => {
 
   return (
     <main className='bg-balance-surface'>
-        <form action={editTransaction}>
+        <ActionForm action={editTransaction}>
             <div>
               <h1 className="font-bold mb-2">Edit Transaction</h1>    
                 <div className='form-control'>
@@ -53,7 +54,7 @@ const EditExpensePage = async ( {params}: { params: Promise<{id:string}>} ) => {
                   </div>
                 </div>
             </div>
-        </form>
+        </ActionForm>
     </main>
   );
 };

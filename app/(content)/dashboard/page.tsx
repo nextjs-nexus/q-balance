@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-import ChartByPeriod from "../../components/chart-by-period";
-import { getByDays } from "../../lib/transactions-mariadb";
-import RecentTransactions from "../../components/recent-transactions";
+import ChartByPeriod from "../../../components/chart-by-period";
+import { getByDays } from "../../../lib/transactions-mariadb";
+import RecentTransactions from "../../../components/recent-transactions";
 
 type ArrayOfObjectsTransactions = {
   day: string;
@@ -61,7 +61,7 @@ const MainPage = async ( {searchParams}: { searchParams: Promise<{date_from: str
 						</h1>
 						<div className="flex flex-wrap gap-x-4 gap-y-2 text-sm">
 						<div>
-							<Link href="/?period=week" className={`${
+							<Link href="/dashboard?period=week" className={`${
   								period === "week"
 								? "font-bold"
 								: "font-normal"
@@ -71,7 +71,7 @@ const MainPage = async ( {searchParams}: { searchParams: Promise<{date_from: str
 							</Link>
 						</div>
 						<div>
-							<Link href="/?period=month" className={`${
+							<Link href="/dashboard?period=month" className={`${
   								period === "month"
 								? "font-bold"
 								: "font-normal"
@@ -81,7 +81,7 @@ const MainPage = async ( {searchParams}: { searchParams: Promise<{date_from: str
 							</Link>
 						</div>
 						<div>
-							<Link href="/?period=6months" className={`${
+							<Link href="/dashboard?period=6months" className={`${
   								period === "6months"
 								? "font-bold"
 								: "font-normal"

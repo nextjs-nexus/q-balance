@@ -1,7 +1,4 @@
 import Image from "next/image.js";
-import Link from "next/link";
-import { headers } from "next/headers";
-import { auth } from "../../../lib/auth";
 
 import { getCategories } from "../../../lib/transactions-mariadb";
 
@@ -14,22 +11,6 @@ type ArrayOfObjects = {
 export default async function ListCategories(){
 
     const allCategories: ArrayOfObjects = await getCategories();
-
-    const session = await auth.api.getSession({
-        headers: await headers(),
-    });
-
-    if (!session) {
-        return (
-            <div className="flex flex-col items-center justify-center h-screen gap-4">
-            <h1 className="text-4xl font-bold">Q-Balance</h1>
-            <div className="form-controls flex gap-4 mt-8">
-                <Link href="/signup">Sign Up</Link>
-                <Link href="/signin">Sign In</Link>
-            </div>
-            </div> 
-        );
-    }
 
     return (
         <main className='bg-balance-surface'>

@@ -3,12 +3,16 @@
 import { useActionState } from 'react';
 
 import FormSubmit from './form-submit';
+import FormFeedback from './form-feedback';
+import { INITIAL_FORM_STATE, type FormState } from '../lib/form-state';
 
-export default function CategoryForm( {action}) {
+type CategoryFormProps = {
+  action: (state: FormState, formData: FormData) => Promise<FormState>;
+};
 
-  const [state, formAction] = useActionState(action, {
-    errors: null
-  });
+export default function CategoryForm({ action }: CategoryFormProps) {
+
+  const [state, formAction] = useActionState(action, INITIAL_FORM_STATE);
 
   return (
     <>
@@ -27,14 +31,8 @@ export default function CategoryForm( {action}) {
         <div className="form-actions">
           <FormSubmit />
         </div>
-        {state.errors && (
-          <ul className="form-errors">
-            {state.errors.map((error: string) => (
-              <li key={error}>{error}</li>
-            ))}
-          </ul>
-        )}
       </form>
+      <FormFeedback state={state} />
     </>
   );
 }

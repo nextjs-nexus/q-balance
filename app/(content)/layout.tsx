@@ -2,11 +2,10 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { headers } from "next/headers";
 
-import { auth } from "../../lib/auth";
+import { getViewer } from "../../lib/current-user";
 import MainMenu from '../../components/main-menu';
-import LandingPage from "../../components/landing-page";
+import DemoSignInButton from '../../components/demo-sign-in-button';
 
 import { signOutAction } from '../../actions/auth';
 
@@ -33,19 +32,7 @@ type RootLayoutProps = {
 
 export default async function RootLayout({children}: RootLayoutProps) {
 
-  const session = await auth.api.getSession({
-      headers: await headers(),
-  });
-
-  if (!session) {
-    return (
-        <html lang="en" className="h-full antialiased">
-          <body className={`${geistSans.variable} ${geistMono.variable} font-[family-name:var(--font-geist-sans)]`}>
-            <LandingPage />
-          </body>
-        </html>
-    );
-  }
+  const viewer = await getViewer();
 
   return (
     <html lang="en" className="h-full antialiased">
@@ -58,15 +45,47 @@ export default async function RootLayout({children}: RootLayoutProps) {
             <span className="hidden lg:block font-bold text-lg">Q-Balance</span>
           </Link>
         </div>
-        <div className="form-actions order-first min-w-0 text-sm text-balance-muted flex flex-row mb-3">
-            <span className="hidden sm:inline mt-2">Logged in: </span>
-            <span className='font-semibold mr-4 mt-2'>{session.user.name}</span>
-            <Link href="/change-password" className="mr-4">Change password</Link>
-            <form action={signOutAction}>
-              <input type="submit" defaultValue="Logout" />
-            </form>
-        </div>
+        {viewer.signedIn ? (
+          <div className="form-actions order-first min-w-0 text-sm text-balance-muted flex flex-row mb-3">
+              <span className="hidden sm:inline mt-2">Logged in: </span>
+              <span className='font-semibold mr-4 mt-2'>{viewer.name}</span>
+              {viewer.isDemo ? (
+                <span
+                  className="mr-4 mt-1 self-start rounded-full bg-balance-accent px-3 py-1 text-xs font-semibold text-balance-ink"
+                  title="Shared demo account. Its data resets every day."
+                >
+                  Demo account
+                </span>
+              ) : (
+                <Link href="/change-password" className="mr-4">Change password</Link>
+              )}
+              <form action={signOutAction}>
+                <input type="submit" defaultValue="Logout" />
+              </form>
+          </div>
+        ) : (
+          <div className="form-actions order-first min-w-0 text-sm flex flex-row flex-wrap items-center mb-3">
+              <Link href="/signin">Log in</Link>
+              <Link href="/signup">Sign up</Link>
+              {viewer.demoAvailable && (
+                <DemoSignInButton variant="plain" label="Try demo" />
+              )}
+          </div>
+        )}
       </div>
+      {!viewer.signedIn && (
+        <p role="status" className="border-b border-balance-border bg-balance-accent px-4 py-2 text-sm text-balance-ink sm:px-6 lg:px-10">
+          <span className="font-semibold">You are browsing sample data.</span>{" "}
+          Everything is open to look around. Adding and editing records is available after you log in
+          {viewer.demoAvailable ? " or try the shared demo account." : "."}
+        </p>
+      )}
+      {viewer.isDemo && (
+        <p role="status" className="border-b border-balance-border bg-balance-accent px-4 py-2 text-sm text-balance-ink sm:px-6 lg:px-10">
+          <span className="font-semibold">You are using the shared demo account.</span>{" "}
+          Feel free to add, edit, and delete records. The demo data resets every day.
+        </p>
+      )}
       <div className="flex min-h-[calc(100dvh-3.5rem)] flex-col bg-balance-canvas md:flex-row">
         <aside id="main-menu" className="z-20 w-full shrink-0 border-b border-balance-border bg-balance-primary px-3 py-2 md:sticky md:top-0 md:h-screen md:w-20 md:border-b-0 md:border-r md:p-4 lg:w-60">
           <MainMenu />

@@ -5,6 +5,8 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "../lib/auth";
 import { isValidPassword, PASSWORD_REQUIREMENTS } from "../lib/password-policy";
+import { getDemoConfig, getSafeRedirectPath } from "../lib/demo";
+import { ensureFreshSampleAccount, resetSampleAccount } from "../lib/demo-account";
 
 function fail(path: string, message: string): never {
   redirect(`${path}${path.includes("?") ? "&" : "?"}error=${encodeURIComponent(message)}`);
@@ -37,7 +39,40 @@ export async function signInAction(formData: FormData) {
       ? "Verify your email before signing in. Check your inbox or request another verification email."
       : "Unable to sign in. Check your email and password and try again.");
   }
-  redirect("/");
+  redirect("/dashboard");
+}
+
+async function signInDemoUser(email: string, password: string) {
+  await auth.api.signInEmail({
+    body: { email, password },
+    headers: await headers(),
+  });
+}
+
+// Signs the visitor in to the shared demo account, then opens `next`.
+export async function demoSignInAction(formData: FormData) {
+  const nextPath = getSafeRedirectPath(formData.get("next"));
+  const config = getDemoConfig();
+
+  if (!config) {
+    fail("/signin", "The demo account is not available right now.");
+  }
+
+  try {
+    await ensureFreshSampleAccount("demo");
+    try {
+      await signInDemoUser(config.email, config.password);
+    } catch {
+      // The password may have changed in the environment since the last reset.
+      await resetSampleAccount("demo", true);
+      await signInDemoUser(config.email, config.password);
+    }
+  } catch (error) {
+    console.error("Demo sign-in failed:", error);
+    fail("/signin", "The demo account is not available right now.");
+  }
+
+  redirect(nextPath);
 }
 
 export async function sendVerificationAction(formData: FormData) {

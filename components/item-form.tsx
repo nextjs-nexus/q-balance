@@ -5,10 +5,8 @@ import React from 'react';
 import { useActionState } from 'react';
 
 import FormSubmit from './form-submit';
-
-interface FormState {
-    errors: string[] | null;
-}
+import FormFeedback from './form-feedback';
+import { INITIAL_FORM_STATE, type FormState } from '../lib/form-state';
 
 interface ChildrenProps {
     action: (state: FormState, formData: FormData) => Promise<FormState>;
@@ -16,9 +14,7 @@ interface ChildrenProps {
 }
 
 export default function ItemForm({ action, children }: ChildrenProps) {
-  const [state, formAction] = useActionState(action, {
-    errors: null
-  });
+  const [state, formAction] = useActionState(action, INITIAL_FORM_STATE);
 
   return (
     <>
@@ -41,14 +37,8 @@ export default function ItemForm({ action, children }: ChildrenProps) {
         <div className="form-actions">
           <FormSubmit />
         </div>
-        {state.errors && (
-          <ul className="form-errors">
-            {state.errors.map((error) => (
-              <li key={error}>{error}</li>
-            ))}
-          </ul>
-        )}
       </form>
+      <FormFeedback state={state} />
     </>
   );
 }

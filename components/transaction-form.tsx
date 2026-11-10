@@ -6,11 +6,9 @@ import { useActionState, useState } from 'react';
 import { calculateDiscountedPrice } from '../lib/transaction-discount';
 
 import FormSubmit from './form-submit';
+import FormFeedback from './form-feedback';
+import { INITIAL_FORM_STATE, type FormState } from '../lib/form-state';
 import TransactionTypeRadio from './transaction-type-radio';
-
-interface FormState {
-    errors: string[] | null;
-}
 
 interface ChildrenProps {
     action: (state: FormState, formData: FormData) => Promise<FormState>;
@@ -19,9 +17,7 @@ interface ChildrenProps {
 
 export default function TransactionForm({ action, children }: ChildrenProps) {
 
-  const [state, formAction] = useActionState(action, {
-    errors: null
-  });
+  const [state, formAction] = useActionState(action, INITIAL_FORM_STATE);
 
   const searchParams = useSearchParams()
   const [type, setType] = useState(searchParams.get('type') === '1' ? '1' : '2');
@@ -90,15 +86,9 @@ export default function TransactionForm({ action, children }: ChildrenProps) {
             <div className="form-actions">
               <FormSubmit />            
             </div>
-            {state.errors && (
-              <ul className="form-errors">
-                {state.errors.map((error: string) => (
-                  <li key={error}>{error}</li>
-                ))}
-              </ul>
-            )}
           </div>
       </form>
+      <FormFeedback state={state} />
     </>
   );
 

@@ -3,6 +3,9 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { calculateDiscountedPrice } from '../lib/transaction-discount';
+import { getSessionUser } from '../lib/current-user';
+import { LOGIN_REQUIRED_MESSAGE, getDemoConfig } from '../lib/demo';
+import type { FormState } from '../lib/form-state';
 
 import { storeCategory } from '../lib/transactions-mariadb';
 import { storeEditCategory } from '../lib/transactions-mariadb';
@@ -18,7 +21,27 @@ import { deleteTransaction } from '../lib/transactions-mariadb';
 
 
 /***************************************************/
-export async function createCategory(prevState, formData: FormData) {
+// Guests may browse the showcase data, but every change needs a signed-in user.
+async function loginRequiredState(): Promise<FormState | null> {
+  if (await getSessionUser()) {
+    return null;
+  }
+
+  return {
+    errors: [LOGIN_REQUIRED_MESSAGE],
+    loginRequired: true,
+    demoAvailable: getDemoConfig() !== null,
+  };
+}
+
+
+/***************************************************/
+export async function createCategory(prevState: FormState, formData: FormData): Promise<FormState> {
+
+  const loginRequired = await loginRequiredState();
+  if (loginRequired) {
+    return loginRequired;
+  }
 
   const title = formData.get('title') as string;
   const description = formData.get('description') as string;
@@ -43,13 +66,18 @@ export async function createCategory(prevState, formData: FormData) {
   });
 
   revalidatePath('/', 'layout');
-  redirect('/');
+  redirect('/dashboard');
 
 }
 
 
 /***************************************************/
-export async function editCategory(formData: FormData) {
+export async function editCategory(prevState: FormState, formData: FormData): Promise<FormState> {
+
+  const loginRequired = await loginRequiredState();
+  if (loginRequired) {
+    return loginRequired;
+  }
 
   const id = formData.get('id');
   const title = formData.get('title') as string;
@@ -73,10 +101,12 @@ export async function editCategory(formData: FormData) {
 
 
 /***************************************************/
-export async function createItem(prevState, formData: FormData) {
+export async function createItem(prevState: FormState, formData: FormData): Promise<FormState> {
 
-  console.log('fd');
-  console.log(formData);
+  const loginRequired = await loginRequiredState();
+  if (loginRequired) {
+    return loginRequired;
+  }
 
   const title = formData.get('title') as string;
   const units = formData.get('units') as string;
@@ -111,7 +141,12 @@ export async function createItem(prevState, formData: FormData) {
 
 
 /***************************************************/
-export async function editItem(formData: FormData) {
+export async function editItem(prevState: FormState, formData: FormData): Promise<FormState> {
+
+  const loginRequired = await loginRequiredState();
+  if (loginRequired) {
+    return loginRequired;
+  }
 
   const id = formData.get('id');
   const title = formData.get('title') as string;
@@ -140,7 +175,12 @@ export async function editItem(formData: FormData) {
 
 
 /***************************************************/
-export async function createTransaction(prevState, formData: FormData) {
+export async function createTransaction(prevState: FormState, formData: FormData): Promise<FormState> {
+
+  const loginRequired = await loginRequiredState();
+  if (loginRequired) {
+    return loginRequired;
+  }
 
   const itemId = formData.get('itemId') as string;
   const quantity = formData.get('quantity') as string;
@@ -173,9 +213,9 @@ export async function createTransaction(prevState, formData: FormData) {
   }
 
   await storeTransaction({
-    itemId, 
-    quantity, 
-    price: discounted && 'price' in discounted ? String(discounted.price.toFixed(2)) : price, 
+    itemId,
+    quantity,
+    price: discounted && 'price' in discounted ? String(discounted.price.toFixed(2)) : price,
     type,
     comments
   });
@@ -187,7 +227,12 @@ export async function createTransaction(prevState, formData: FormData) {
 
 
 /***************************************************/
-export async function editTransaction(formData: FormData) {
+export async function editTransaction(prevState: FormState, formData: FormData): Promise<FormState> {
+
+  const loginRequired = await loginRequiredState();
+  if (loginRequired) {
+    return loginRequired;
+  }
 
   const eid = formData.get('eid');
   const itemId = formData.get('itemId') as string;
@@ -201,7 +246,7 @@ export async function editTransaction(formData: FormData) {
 
   if (!eid) {
     errors.push('Expense id is required.');
-  }  
+  }
 
   if (!itemId || itemId.trim().length === 0) {
     errors.push('itemId is required.');
@@ -216,14 +261,14 @@ export async function editTransaction(formData: FormData) {
   }
 
   if (errors.length > 0) {
-    throw new Error(errors.join(' '));
+    return { errors };
   }
 
   if (button_save) {
     await storeEditTransaction(eid,{
-      itemId, 
-      quantity, 
-      price, 
+      itemId,
+      quantity,
+      price,
       comments
     });
   }else if (button_delete) {

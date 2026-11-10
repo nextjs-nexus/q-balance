@@ -4,7 +4,7 @@ Q-Balance is a web app for tracking income and expenses. Organize transactions i
 
 ## Live demo
 
-Try Q-Balance at [q-balance.next-nexus.dev](https://q-balance.next-nexus.dev/).
+Try Q-Balance at [q-balance.next-nexus.dev](https://q-balance.next-nexus.dev/). No account is needed: visitors can browse six months of sample data straight away, or use the shared demo account to try adding and editing records.
 
 ## Features
 
@@ -14,6 +14,8 @@ Try Q-Balance at [q-balance.next-nexus.dev](https://q-balance.next-nexus.dev/).
 - **Dashboard:** compare daily income and expenses in an interactive line chart with week, month, and six-month presets. Separate panels show up to seven recent income and expense transactions from the past month.
 - **Transaction filters:** browse income or expenses by date range and category, with a total for the selected results.
 - **Category reports:** compare income and expenses per category, with overall totals and a calculated balance for the selected period.
+- **Browse without an account:** guests see a read-only showcase account with six months of sample categories, items, and transactions. Saving, editing, or deleting shows a notice that these features are available after logging in.
+- **Shared demo account:** a one-click "Try the demo account" button signs visitors in to a demo account with its own copy of the sample data, where they can add and edit freely. Its data resets every day, and its password and profile cannot be changed.
 - **User accounts:** register, verify an email address, sign in, and sign out. Database queries scope each user's categories, items, and transactions to their account.
 - **Password management:** resend verification emails, request password reset emails, and change a password while signed in.
 - **Responsive interface:** layouts and navigation adapt to mobile, tablet, and desktop screens.
@@ -72,6 +74,8 @@ Update `.env.local` with your database and email settings:
 | `SMTP_USER` | SMTP username |
 | `SMTP_PASSWORD` | SMTP password |
 | `SMTP_FROM_EMAIL` | Sender allowed by your provider, for example `Q-Balance <noreply@example.com>` |
+| `DEMO_USER_EMAIL` | Optional. Email address of the shared demo account, which is created automatically |
+| `DEMO_USER_PASSWORD` | Optional. Password of the shared demo account. Leave both demo variables empty to hide the demo button |
 
 Keep real credentials in `.env.local`, which is ignored by Git. The committed `.env.example` contains placeholders.
 
@@ -125,6 +129,21 @@ Application IDs are auto-incrementing integers, while authentication IDs are sup
 
 Categories referenced by items and items referenced by transactions cannot be deleted until their dependent records are removed or reassigned. This protects transaction history from accidental deletion.
 
+### Sample data and the demo account
+
+Two sample accounts are created automatically the first time they are needed, and the `demo_data_resets` table is created with them:
+
+- **Showcase account** (`showcase@q-balance.invalid`): guests browse its data. It has no password, so nobody can sign in to it or change its data.
+- **Demo account** (`DEMO_USER_EMAIL`): the "Try the demo account" button signs visitors in to it. It has its own copy of the sample data, so demo visitors' changes are never shown to guests.
+
+Each account's data is regenerated once per day, the first time it is used after midnight (database clock). The generator in `lib/demo-data.ts` creates seven categories, 21 items, and about six months of income and expense transactions ending today. Each calendar date always produces the same transactions, so the data moves forward a day at a time instead of being reshuffled.
+
+No scheduled job is required. To reset both accounts immediately, for example from a nightly cron job in the project directory, run:
+
+```bash
+npm run demo:reset
+```
+
 Local historical database artifacts are excluded by `.gitignore`: `better-auth_migrations/`, the PostgreSQL-specific `migrations/2026-09-28-add-user-ownership.sql`, and `lib/transactions-sqlite.js.no_longer_used`. Fresh installations use only `database/schema.sql`; SQLite is not the current database.
 
 ### Run locally
@@ -135,7 +154,7 @@ Once the database and environment are configured:
 npm run dev
 ```
 
-Open [localhost:3000](http://localhost:3000), create an account, and follow the verification link sent to your email. After signing in, create a category, add an item assigned to it, and start recording transactions.
+Open [localhost:3000](http://localhost:3000) to see the landing page, then open the dashboard to browse the sample data. To keep your own records, create an account and follow the verification link sent to your email. After signing in, create a category, add an item assigned to it, and start recording transactions.
 
 ## Scripts
 
@@ -145,6 +164,8 @@ Open [localhost:3000](http://localhost:3000), create an account, and follow the 
 | `npm run build` | Create a production build |
 | `npm start` | Serve the production build |
 | `npm test` | Run the existing TypeScript tests |
+| `npm run lint` | Check the code with ESLint |
+| `npm run demo:reset` | Regenerate the showcase and demo account sample data |
 
 For production, configure the database and SMTP service, set `BETTER_AUTH_URL` to the public application origin, and provide a strong `BETTER_AUTH_SECRET`, then run:
 
@@ -167,12 +188,13 @@ Signed-in password changes require the current password and revoke other session
 actions/                  Server Actions for authentication and data mutations
 app/
   (authentication)/       Sign-in, sign-up, verification, and password recovery
+  (landing)/              Landing page at /, which redirects signed-in users to /dashboard
   (content)/              Dashboard, reports, CRUD pages, and password changes
   api/auth/[...all]/       Better Auth route handler
 components/               Shared UI, forms, filters, navigation, and charts
 lib/                      Authentication, email, database queries, and validation
 database/schema.sql       Complete MariaDB schema for fresh installations
-tests/                    Password and discount tests
+tests/                    Password, discount, and demo data tests
 db.ts                     MariaDB connection pool
 .env.example              Environment configuration template
 ```

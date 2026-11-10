@@ -1,7 +1,7 @@
 import type { ExecuteValues, ResultSetHeader, RowDataPacket } from "mysql2";
 
 import connectionPool from "../db";
-import { getCurrentUserId } from "./current-user";
+import { getDataOwnerId, requireWriterId } from "./current-user";
 
 // Callers declare their own row shapes, so rows are returned untyped.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,7 +16,7 @@ async function execute(sql: string, values: ExecuteValues[] = []): Promise<Resul
 }
 
 export async function getCategories() {
-  const userId = await getCurrentUserId();
+  const userId = await getDataOwnerId();
   return select(
     "SELECT id, title, description FROM categories WHERE user_id = ? ORDER BY title ASC",
     [userId]
@@ -24,7 +24,7 @@ export async function getCategories() {
 }
 
 export async function getCategory(categoryId: FormDataEntryValue | null) {
-  const userId = await getCurrentUserId();
+  const userId = await getDataOwnerId();
   return select(
     "SELECT id, title, description FROM categories WHERE id = ? AND user_id = ? LIMIT 1",
     [categoryId, userId]
@@ -32,7 +32,7 @@ export async function getCategory(categoryId: FormDataEntryValue | null) {
 }
 
 export async function storeCategory(category: { title: string; description: string }) {
-  const userId = await getCurrentUserId();
+  const userId = await requireWriterId();
   const result = await execute(
     "INSERT INTO categories (title, description, user_id) VALUES (?, ?, ?)",
     [category.title, category.description, userId]
@@ -41,7 +41,7 @@ export async function storeCategory(category: { title: string; description: stri
 }
 
 export async function storeEditCategory(id: FormDataEntryValue | null, category: { title: string; description: string }) {
-  const userId = await getCurrentUserId();
+  const userId = await requireWriterId();
   await execute(
     "UPDATE categories SET title = ?, description = ? WHERE id = ? AND user_id = ?",
     [category.title, category.description, id, userId]
@@ -50,13 +50,13 @@ export async function storeEditCategory(id: FormDataEntryValue | null, category:
 }
 
 export async function deleteCategory(id: FormDataEntryValue | null) {
-  const userId = await getCurrentUserId();
+  const userId = await requireWriterId();
   await execute("DELETE FROM categories WHERE id = ? AND user_id = ?", [id, userId]);
   return { id };
 }
 
 export async function getItems() {
-  const userId = await getCurrentUserId();
+  const userId = await getDataOwnerId();
   return select(
     "SELECT id, title, units, description FROM items WHERE user_id = ? ORDER BY title ASC",
     [userId]
@@ -64,7 +64,7 @@ export async function getItems() {
 }
 
 export async function getItem(itemId: FormDataEntryValue | null) {
-  const userId = await getCurrentUserId();
+  const userId = await getDataOwnerId();
   return select(
     "SELECT id, title, units, description, categoryid FROM items WHERE id = ? AND user_id = ? LIMIT 1",
     [itemId, userId]
@@ -77,7 +77,7 @@ export async function storeItem(item: {
   description: string;
   categoryId: string | number;
 }) {
-  const userId = await getCurrentUserId();
+  const userId = await requireWriterId();
   const result = await execute(
     `INSERT INTO items (title, units, description, categoryid, user_id)
      SELECT ?, ?, ?, cat.id, ?
@@ -92,7 +92,7 @@ export async function storeEditItem(
   id: FormDataEntryValue | null,
   item: { title: string; units: string; description: string; categoryId: string | number }
 ) {
-  const userId = await getCurrentUserId();
+  const userId = await requireWriterId();
   await execute(
     `UPDATE items
      SET title = ?, units = ?, description = ?, categoryid = ?
@@ -104,7 +104,7 @@ export async function storeEditItem(
 }
 
 export async function deleteItem(id: FormDataEntryValue | null) {
-  const userId = await getCurrentUserId();
+  const userId = await requireWriterId();
   await execute("DELETE FROM items WHERE id = ? AND user_id = ?", [id, userId]);
   return { id };
 }
@@ -117,7 +117,7 @@ export async function getTransactions(
   limit?: number,
   sorting?: string
 ) {
-  const userId = await getCurrentUserId();
+  const userId = await getDataOwnerId();
   const sortDirection = String(sorting).trim().toUpperCase() === "DESC" ? "DESC" : "ASC";
 
   const normalizedLimit = limit && limit > 0 ? limit : null;
@@ -154,7 +154,7 @@ export async function getTransactions(
 }
 
 export async function getTransaction(transactionId: FormDataEntryValue | null) {
-  const userId = await getCurrentUserId();
+  const userId = await getDataOwnerId();
   return select(
     "SELECT id, itemid, quantity, price, comments FROM transactions WHERE id = ? AND user_id = ?",
     [transactionId, userId]
@@ -162,7 +162,7 @@ export async function getTransaction(transactionId: FormDataEntryValue | null) {
 }
 
 export async function getByCategories(dateFrom?: string, dateTo?: string, categoryId?: string) {
-  const userId = await getCurrentUserId();
+  const userId = await getDataOwnerId();
   if (!dateFrom) {
     const dateObj = new Date();
     dateObj.setMonth(dateObj.getMonth() - 1);
@@ -192,7 +192,7 @@ export async function getByCategories(dateFrom?: string, dateTo?: string, catego
 }
 
 export async function getByDays(dateFrom?: string, dateTo?: string) {
-  const userId = await getCurrentUserId();
+  const userId = await getDataOwnerId();
   if (!dateFrom) {
     const dateObj = new Date();
     dateObj.setMonth(dateObj.getMonth() - 1);
@@ -221,7 +221,7 @@ export async function storeTransaction(transaction: {
   type: string | number;
   comments: string;
 }) {
-  const userId = await getCurrentUserId();
+  const userId = await requireWriterId();
   const result = await execute(
     `INSERT INTO transactions (itemid, quantity, price, type, comments, user_id)
      SELECT itm.id, ?, ?, ?, ?, ?
@@ -244,7 +244,7 @@ export async function storeEditTransaction(
   id: FormDataEntryValue | null,
   transaction: { itemId: string | number; quantity: string | number; price: string | number; comments: string }
 ) {
-  const userId = await getCurrentUserId();
+  const userId = await requireWriterId();
   await execute(
     `UPDATE transactions
      SET itemid = ?, quantity = ?, price = ?, comments = ?
@@ -265,7 +265,7 @@ export async function storeEditTransaction(
 }
 
 export async function deleteTransaction(id: FormDataEntryValue | null) {
-  const userId = await getCurrentUserId();
+  const userId = await requireWriterId();
   await execute("DELETE FROM transactions WHERE id = ? AND user_id = ?", [id, userId]);
   return { id };
 }

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getCategory } from '../../../../lib/transactions-mariadb';
 import { editCategory } from '../../../../actions/transactions';
 import ButtonBack from '../../../../components/button-back';
+import ActionForm from '../../../../components/action-form';
 
 type ArrayOfObjects = {
   id: number;
@@ -22,7 +23,7 @@ const EditCategoryPage = async ( {params}: { params: Promise<{id:string}>} ) => 
 
   return (
     <main className='bg-balance-surface'>
-        <form action={editCategory}>
+        <ActionForm action={editCategory}>
             <div>
               <h1 className="form-control py-2 px-2 font-semibold">Edit Category</h1>
                 {result.map((category) => (
@@ -44,7 +45,7 @@ const EditCategoryPage = async ( {params}: { params: Promise<{id:string}>} ) => 
                   </div>
                 </div>
             </div>
-        </form>
+        </ActionForm>
     </main>
   );
 };

@@ -111,3 +111,10 @@ CREATE TABLE `transactions` (
     CONSTRAINT `transactions_item_owner_fk` FOREIGN KEY (`itemid`, `user_id`)
         REFERENCES `items` (`id`, `user_id`) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Last daily reset of the showcase and demo sample data. The app also creates it on demand.
+CREATE TABLE `demo_data_resets` (
+    `account` VARCHAR(20) NOT NULL,
+    `reset_at` DATETIME NOT NULL,
+    PRIMARY KEY (`account`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

@@ -7,7 +7,8 @@
     "build": "next build --webpack",
     "start": "next start",
     "test": "node --import tsx --test tests/*.test.ts",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "demo:reset": "tsx lib/reset-demo.ts"
   },
   "dependencies": {
     "better-auth": "^1.7.2",

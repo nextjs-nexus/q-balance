@@ -5,6 +5,12 @@ export default function MainMenu() {
     <header className="mt-2 md:mt-4">
       <nav aria-label="Main navigation" className="overflow-x-auto">
         <div className='flex min-w-max gap-1 md:min-w-0 md:flex-col'>
+          <div>
+            <NavLinkAdv href="/dashboard" image="/dashboard.svg">
+              <span className="hidden lg:block">Dashboard</span>
+            </NavLinkAdv>
+          </div>
+          <br />
           <p className='text-balance-nav-muted font-normal text-lg'>New Data</p>
           <div>
             <NavLinkAdv href="/new-category" image="/new-category.svg">

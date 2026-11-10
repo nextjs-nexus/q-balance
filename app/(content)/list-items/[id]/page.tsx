@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 
 import ButtonBack from '../../../../components/button-back';
+import ActionForm from '../../../../components/action-form';
 import CategoriesGrid from '../../../../components/categories-grid';
 
 import { getItem } from '../../../../lib/transactions-mariadb';
@@ -30,7 +31,7 @@ const EditItemPage = async ( {params}: { params: Promise<{id:string}>} ) => {
 
   return (
     <main className='bg-balance-surface'>
-        <form action={editItem}>
+        <ActionForm action={editItem}>
             <div className='form-control'>
               <h1 className="font-bold mb-2">Edit Item</h1>
                 {result.map((item) => (
@@ -59,7 +60,7 @@ const EditItemPage = async ( {params}: { params: Promise<{id:string}>} ) => {
                 <button className="px-3" id="save" name="save" value="1">Save</button>
               </div>
             </div>
-        </form>
+        </ActionForm>
     </main>
   );
 };
