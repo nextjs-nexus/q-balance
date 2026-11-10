@@ -34,7 +34,6 @@ CREATE TABLE `session` (
 
 CREATE TABLE `account` (
     `id` VARCHAR(36) COLLATE utf8mb4_bin NOT NULL,
-    `issuer` VARCHAR(255) COLLATE utf8mb4_bin NOT NULL,
     `accountId` VARCHAR(255) COLLATE utf8mb4_bin NOT NULL,
     `providerId` TEXT NOT NULL,
     `userId` VARCHAR(36) COLLATE utf8mb4_bin NOT NULL,
@@ -48,7 +47,6 @@ CREATE TABLE `account` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     PRIMARY KEY (`id`),
-    UNIQUE KEY `account_issuer_accountId_unique` (`issuer`, `accountId`),
     KEY `account_userId_idx` (`userId`),
     CONSTRAINT `account_user_fk` FOREIGN KEY (`userId`)
         REFERENCES `user` (`id`) ON DELETE CASCADE
